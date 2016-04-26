@@ -277,28 +277,32 @@
 					this.freeDegreeSpeed[j] = {theta:1*Math.random()-0.5, phi:1*Math.random()-0.5};
 				};
 				this.charsMap = new Object();
+
 				for(var i in chars) {
 					var buffer = document.getElementById(i).getContext("2d").getImageData(0, 0, 100, 100).data;
 					this.charsMap[i] = new Array();
 					var self = this;
-					for(var j=0; j<this.particleNum; j++) {
-						var redo = function() {
-							var theta = Math.floor(Math.random()*100);
-							var phi = Math.floor(Math.random()*100);
-							if(buffer[(theta*400+(phi*4))] == 0) {
-								self.charsMap[i].push(
-									{
-										theta:theta-50 + 360 * Math.round(Math.random()*2)-1,
-										phi:phi-50 + 360 * Math.round(Math.random()*2)-1
-									}
-								);
-							} else {
-								redo();
+					if(this.particleNum > 0){
+						for(var j=0; j<this.particleNum; j++) {
+							var redo = function() {
+								var theta = Math.floor(Math.random()*100);
+								var phi = Math.floor(Math.random()*100);
+								if(buffer[(theta*400+(phi*4))] == 0) {
+									self.charsMap[i].push(
+										{
+											theta:theta-50 + 360 * Math.round(Math.random()*2)-1,
+											phi:phi-50 + 360 * Math.round(Math.random()*2)-1
+										}
+									);
+								} else {
+									redo();
+								};
 							};
+							redo();	
 						};
-						redo();	
-					};
+					}
 				};
+
 				this.charsMap["@"] = new Array();
 				for(var i=0; i<this.particleNum; i++) {
 					this.charsMap["@"][i] = {theta:360*Math.random(), phi:360*Math.random()};
@@ -511,6 +515,7 @@
 				var col = 10;
 				var colUnit = 80;
 				var rowUnit = 120;
+				console.log(alpha.length);
 				if( alpha.length > 0 ){
 					for(var i=0; i<alpha.length; i++) {
 						s[i].targetCenter = {
