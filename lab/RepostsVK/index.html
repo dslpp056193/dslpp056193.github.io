@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/materialize.css">
+
+	<!-- JS -->
+	<script src="js/main.js"></script>
+	<script src="js/materialize.min.js"></script>
+</head>
+<body>
+
+	<div class="container">
+		<h2 class="fz24 white-text">Получить список репостнувших юзеров</h2>
+			
+		<div class="card">
+			<div class="card-content">
+				<h5>Введите ссылку на пост</h5>
+
+				<div class="input-field">					
+					<input type="text" placeholder="http://vk.com/feed?w=wall-12345678_12345" id="link">
+				</div>
+
+				<div class="input-field mt5">
+					<h5>Является членом сообществ <small class="blue-text text-lighten-4">(через запятую)</small></h5>
+				</div>
+
+				<div class="input-field">					
+					<input type="text" placeholder="vk.com/leprum, vk.com/leprum" id="groups">
+				</div>
+
+				<div class="input-field">
+					<button class="waves-effect waves-light btn blue">Получить</button>
+				</div>
+			</div>
+
+			<div class="card-content">
+				<div class="progres">
+			      <div class="indeterminate"></div>
+				</div>
+
+				<table id="table"></table>	
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
