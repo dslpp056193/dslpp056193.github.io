@@ -4,43 +4,153 @@
 	<meta charset="UTF-8">
 	<title>Medzhidov</title>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 	
 	<!-- Optional theme -->
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 	
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<style>
 		* {margin:0;}
+        .margin-t-1{margin-top: 10px;}
+        .margin-t-2{margin-top: 20px;}
+        .margin-t-3{margin-top: 30px;}
+        .margin-t-4{margin-top: 40px;}
+        .margin-t-5{margin-top: 50px;}
+        .margin-b-1{margin-bottom: 10px;}
+        .margin-b-2{margin-bottom: 20px;}
+        .margin-b-3{margin-bottom: 30px;}
+        .margin-b-4{margin-bottom: 40px;}
+        .margin-b-5{margin-bottom: 50px;}
 	</style>
+
+    <script>
+        var code = function(str){
+            var hash = [];
+
+            for( i=0; i<str.length; i++ ){
+                hash.push( str[i].charCodeAt() / 10 );
+            }
+
+            return hash.join(':');
+        }
+
+        var decode = function( hash ){
+            hash = hash.split(':');
+
+            var newhash = [];
+
+            for( i=0; i<hash.length; i++ ){
+                newhash.push( String.fromCharCode( parseFloat(hash[i]) * 10 ) );
+            }
+
+            return newhash.join('');
+        }
+    </script>
 </head>
 <body class="container">
-	<h1>Слово в шифр</h1>
-	<div class="row"> 
-		<div class="col-lg-5 col-xs-5">
-			<textarea placeholder="Введи текст"></textarea>
+	<h1>Текст в Шифр</h1>
+	<div class="row" id="text-code"> 
+		<div class="col-xs-5">
+			<textarea class="col-xs-12 form-control" placeholder="Введи текст"></textarea>
 		</div>
-		<div class="col-lg-2 col-xs-2">
+		<div class="col-xs-2 text-center">
 			->
 		</div>
-		<div class="col-lg-5 col-xs-5">
-			<textarea placeholder="Здесь будет шифр" disabled></textarea>
+		<div class="col-xs-5">
+			<textarea class="col-xs-12 form-control" placeholder="Здесь будет шифр"></textarea>
 		</div>
 	</div>
+
+    <button class="btn margin-t-1" id="text-to-hash">Перевести</button>
+
+    <script>
+        $(function(){
+            $('#text-to-hash').on('click', function(){
+                var data = code( $('#text-code textarea').eq(0).val() );
+
+                $('#text-code textarea').eq(1).val( data );
+            });
+        })
+    </script>
+
+    <hr>
 	
-	<h1>Шифр в слово</h1>
-	<div class="row"> 
-		<div class="col-lg-5 col-xs-5">
-			<textarea placeholder="Введи шифр"></textarea>
+	<h1>Шифр в Текст</h1>
+	<div class="row" id="hash-text"> 
+		<div class="col-xs-5">
+			<textarea class="col-xs-12 form-control" placeholder="Введи шифр"></textarea>
 		</div>
-		<div class="col-lg-2 col-xs-2">
+		<div class="col-xs-2 text-center">
 			->
 		</div>
-		<div class="col-lg-5 col-xs-5">
-			<textarea placeholder="Здесь будет текст" disabled></textarea>
+		<div class="col-xs-5">
+			<textarea class="col-xs-12 form-control" placeholder="Здесь будет текст"></textarea>
 		</div>
 	</div>
+
+    <button class="btn margin-t-1" id="hash-to-text">Перевести</button>
+
+    <script>
+        $(function(){
+            $('#hash-to-text').on('click', function(){
+                var data = decode( $('#hash-text textarea').eq(0).val() );
+
+                $('#hash-text textarea').eq(1).val( data );
+            });
+        })
+    </script>
+
+    <hr>
+	
+	<h1>Картинку в шифр</h1>
+	<div class="row"> 
+		<div class="col-xs-5">
+			<input type="file" id="file">
+		</div>
+		<div class="col-xs-2 text-center">
+			->
+		</div>
+		<div class="col-xs-5">
+			<textarea id="image-data" class="col-xs-12" placeholder="Здесь будет код"></textarea>
+		</div>
+	</div>
+
+    <script>
+        function readFile() {
+            if (this.files && this.files[0]) {
+                var FR= new FileReader();
+                FR.onload = function(e) {
+                    $('#image-data').val(e.target.result);
+                };       
+                FR.readAsDataURL( this.files[0] );
+            }
+        }
+
+        document.querySelector("input[type='file']").addEventListener("change", readFile, false);
+    </script>
+
+    <h1>Шифр в картинку</h1>
+	<div class="row"> 
+		<div class="col-xs-5">
+			<textarea id="image-text"></textarea>
+		</div>
+		<div class="col-xs-2 text-center">
+			->
+		</div>
+		<div class="col-xs-5">
+			<img src="" id="image">
+		</div>
+	</div>
+
+    <script>
+        $(function(){
+            $('#image-text').on('blur', function(){
+                $("#image").attr('src', $(this).val());
+            });
+        });
+    </script>
 </body>
 </html>
